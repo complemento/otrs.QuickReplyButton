@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<otrs_config version="1.0" init="Application">
+    <ConfigItem Name="Frontend::Output::FilterElementPost###OutputFilteroFastResponse" Required="0" Valid="1">
+        <Description Translatable="1">Resposta rapida.</Description>
+        <Group>FastResponse</Group>
+        <SubGroup>OutputFilter</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::OutputFilterFastResponse</Item>
+<!--                <Item Key="Debug">0</Item>-->
+                <Item Key="Templates">
+                    <Hash>
+                        <Item Key="AgentTicketZoom">1</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###FastResponse" Required="0" Valid="1">
+
+	<Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Complemento-FastResponseTicketSolved</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>FastResponse</Description>
+                <NavBarName>FastResponse</NavBarName>
+                <Title>FastResponse</Title>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###TicketSolved" Required="0" Valid="1">
+
+	<Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Complemento-FastResponseTicketSolved</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>FastResponse</Description>
+                <NavBarName>FastResponse</NavBarName>
+                <Title>FastResponse</Title>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+   <ConfigItem Name="Ticket::Frontend::MenuModule###556-Solved" Required="0" Valid="1">
+        <Description Translatable="1">Shows a link in the menu to close a ticket in the ticket zoom view of the agent interface.</Description>
+        <Group>Complemento-FastResponseTicketSolved</Group>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
+                <Item Key="Name">Resolvido</Item>
+                <Item Key="Description" Translatable="1">Solve this ticket</Item>
+                <Item Key="Action">TicketSolved</Item>
+                <Item Key="Link">Action=TicketSolved;TicketID=[% Data.TicketID | html %]</Item>
+                <Item Key="Target"></Item>
+                <Item Key="PopupType">TicketAction FastResponse</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+
+	 <ConfigItem Name="Solved::State" Required="1" Valid="1">
+        <Description Translatable="1">Destination State when clicked in solved.</Description>
+        <Group>Complemento-FastResponseTicketSolved</Group>
+        <SubGroup>TicketSolved</SubGroup>
+        <Setting>
+            <String Regex="">10</String>
+        </Setting>
+    </ConfigItem>
+
+
+</otrs_config>

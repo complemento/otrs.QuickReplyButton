@@ -1,0 +1,67 @@
+[% WRAPPER JSOnDocumentComplete %] 
+<script type="text/javascript">//<![CDATA[
+$( document ).ready(function() {
+	$(".FastResponse").unbind("click");
+	$('#ArticleItems').bind("DOMSubtreeModified",function(){
+
+		addFastResponseButton();	
+	});
+	addFastResponseButton();	
+	function solveTicket(){
+		var TicketID = $("[name=TicketID]").val();	
+		var ReturnURL = $("#nav-Back a ").attr('href');	
+		var Data = {
+			Action: 'TicketSolved',
+			Subaction: 'Solved',
+			TicketID: TicketID,
+		};
+		$.ajax({
+			type: 'Post',
+			url: Core.Config.Get('CGIHandle'),
+			data: Data,
+			success: function(Response){
+			   window.location= ReturnURL;
+
+			},
+			error: function(error){
+				console.log(error);
+
+			},
+		});
+
+	}
+	function addFastResponseButton(){
+		if($("[id^=FastReponse_]").size() > 0) 
+			return false;
+		$("[id^=ResponseID_Search]").each(function(){
+
+			var ArticleID = $(this).parent().parent().parent().attr('id');
+			var trash  = ArticleID.split('Reply');
+			var ButtonID = "FastReponse_"+trash[1];
+			if($("[id^=FastReponse_"+trash[1] + "]").size() < 1){
+				$(this).parent().parent().parent().append("<input type='button' name='FastResponse'  id="+ButtonID +" value='[% Translate("Quick Reply") | html %]'/>");
+
+			}
+		});
+		$("[name=FastResponse]").bind("click", function(){
+ 		var URL;
+		
+    	var ResponseValueID = "ResponseID="+$("#ResponseID option").eq(1).val();
+	 	var TicketID		  = "TicketID="+ $("[name=FastResponse]").parent().find($('[name=TicketID]')).val();
+		var ArticleID		  = "ArticleID="+ $(this).parent().find($('[name=ArticleID]')).val(); 
+		
+		URL = Core.Config.Get('Baselink')+"&Action=AgentTicketCompose&"+TicketID+"&"+ArticleID+"&"+ResponseValueID;	 
+	        Core.UI.Popup.OpenPopup(URL, 'TicketAction');
+		
+	});
+	$(".FastResponse").click(function( event ) {
+		event.preventDefault();
+		solveTicket();
+	});	
+
+	}
+ }); 
+
+//]]></script>
+[% END %]
+
